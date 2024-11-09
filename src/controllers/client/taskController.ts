@@ -1,6 +1,6 @@
 // controllers/taskController.ts
 import { Request, Response } from "express";
-import { TaskService } from "../services/taskService";
+import { TaskService } from "../../services/taskService";
 
 const taskService = new TaskService();
 
@@ -15,7 +15,7 @@ export class TaskController {
     }
 
     static async getTaskById(req: Request, res: Response) {
-        const id: string = req.params.id;
+        const { id } = req.params;
         try {
             const task = await taskService.getTaskById(id);
             if (task) {

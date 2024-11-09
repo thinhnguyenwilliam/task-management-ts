@@ -1,6 +1,6 @@
 // src/app.ts
 import express from "express";
-import taskRoutes from "./routes/taskRoutes";
+import { routesClient } from "./routes/client/indexRoute";
 
 const app = express();
 
@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json()); // to parse JSON body
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use("/api", taskRoutes); // mount product routes
+// Client Routes
+routesClient(app);
 
 export default app;
