@@ -7,7 +7,11 @@ const taskService = new TaskService();
 export class TaskController {
     static async getAllTasks(req: Request, res: Response) {
         try {
-            const tasks = await taskService.getAllTasks();
+            const sortBy = req.query.sortBy as string;
+            const sortOrder = req.query.sortOrder as "asc" | "desc";
+            // Pass query parameters and sort options to the service
+            const tasks = await taskService.getAllTasks(req.query, { sortBy, sortOrder });
+
             res.status(200).json(tasks); // HTTP 200 OK
         } catch (error) {
             res.status(500).json({ message: "Failed to fetch tasks" });
