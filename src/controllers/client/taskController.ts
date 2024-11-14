@@ -9,9 +9,11 @@ export class TaskController {
         try {
             const sortBy = req.query.sortBy as string;
             const sortOrder = req.query.sortOrder as "asc" | "desc";
-            // Pass query parameters and sort options to the service
-            const tasks = await taskService.getAllTasks(req.query, { sortBy, sortOrder });
-
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 10;
+            
+            const tasks = await taskService.getAllTasks(req.query, { sortBy, sortOrder }, page, limit);
+            
             res.status(200).json(tasks); // HTTP 200 OK
         } catch (error) {
             res.status(500).json({ message: "Failed to fetch tasks" });
