@@ -9,10 +9,6 @@ const taskSchema = new mongoose.Schema<ITask>(
             type: String,
             required: true,
         },
-        taskParentId: {
-            type: String,
-            required: true,
-        },
         status: {
             type: String,
             enum: Object.values(TaskStatus), // Apply TaskStatus enum to status field
@@ -30,8 +26,12 @@ const taskSchema = new mongoose.Schema<ITask>(
             type: Date,
             required: true,
         },
-        createdBy: {
-            type: String,
+        createdAt: {
+            type: Date,
+            required: true,
+        },
+        updatedAt: {
+            type: Date,
             required: true,
         },
         listUser: {
@@ -41,8 +41,7 @@ const taskSchema = new mongoose.Schema<ITask>(
         deleted: {
             type: Boolean,
             default: false,
-        },
-        deletedAt: Date,
+        }
     },
     {
         timestamps: true,
