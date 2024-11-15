@@ -89,7 +89,7 @@ export class TaskService {
         timeStart: Date;
         timeFinish: Date;
         createdAt: Date;
-        updatedAt:Date;
+        updatedAt: Date;
         listUser: string[];
     }) {
         try {
@@ -110,4 +110,49 @@ export class TaskService {
         }
     }
 
+
+    async updateTask(taskId: string, updateData: {
+        title?: string;
+        content?: string;
+        status?: TaskStatus;
+        timeStart?: Date;
+        timeFinish?: Date;
+        createdAt?: Date;
+        updatedAt?: Date;
+        listUser?: string[];
+    }) {
+        try {
+            // Validate status if it's being updated
+            if (updateData.status && !Object.values(TaskStatus).includes(updateData.status)) {
+                throw new Error("Invalid status");
+            }
+
+            // Update the task and return the updated document
+            const updatedTask = await Task.findByIdAndUpdate(
+                taskId,
+                { $set: updateData },
+                { new: true } // Return the updated task
+            );
+
+            return updatedTask;
+        } catch (error) {
+            console.error("Error updating task:", error);
+            throw error;
+        }
+    }
+
+    async softDeleteTasks(taskIds: string[]) {
+        try {
+            // Perform a bulk update to mark tasks as deleted
+            const result = await Task.updateMany(
+                { _id: { $in: taskIds }, deleted: false }, // Only update tasks not already deleted
+                { $set: { deleted: true, deletedAt: new Date() } }
+            );
+
+            return { modifiedCount: result.modifiedCount };
+        } catch (error) {
+            console.error("Error soft deleting tasks:", error);
+            throw error;
+        }
+    }
 }

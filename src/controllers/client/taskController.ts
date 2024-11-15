@@ -91,4 +91,48 @@ export class TaskController {
             res.status(500).json({ message: "Failed to create task" });
         }
     }
+
+    static async updateTask(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const { title, content, status, timeStart, timeFinish, createdAt, updatedAt, listUser } = req.body;
+
+            const updatedTask = await taskService.updateTask(id, {
+                title,
+                content,
+                status,
+                timeStart,
+                timeFinish,
+                createdAt,
+                updatedAt,
+                listUser,
+            });
+
+            if (updatedTask) {
+                res.status(200).json(updatedTask); // HTTP 200 OK
+            } else {
+                res.status(404).json({ message: "Task not found" }); // HTTP 404 Not Found
+            }
+        } catch (error) {
+            console.error("Error updating task:", error);
+            res.status(500).json({ message: "Failed to update task" });
+        }
+    }
+
+    static async softDeleteTasks(req: Request, res: Response) {
+        try {
+            const { taskIds } = req.body;
+
+            if (!Array.isArray(taskIds) || taskIds.length === 0) {
+                return res.status(400).json({ message: "taskIds must be a non-empty array" });
+            }
+
+            const result = await taskService.softDeleteTasks(taskIds);
+
+            res.status(200).json({ message: "Tasks soft deleted successfully", modifiedCount: result.modifiedCount });
+        } catch (error) {
+            console.error("Error soft deleting tasks:", error);
+            res.status(500).json({ message: "Failed to soft delete tasks" });
+        }
+    }
 }
