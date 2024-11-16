@@ -2,7 +2,8 @@ import { Task } from "../models/taskModel";
 import { TaskStatus } from "../enums/taskStatus";
 
 
-export class TaskService {
+export class TaskService 
+{
     async getAllTasks(
         queryParams: any,
         sortParams?: { sortBy: string; sortOrder: "asc" | "desc" },
@@ -155,4 +156,6 @@ export class TaskService {
             throw error;
         }
     }
+
+
 }

@@ -8,7 +8,8 @@ const taskService = new TaskService();
 
 
 
-export class TaskController {
+export class TaskController 
+{
     static async getAllTasks(req: Request, res: Response) {
         try {
             const sortBy = req.query.sortBy as string;
@@ -135,4 +136,6 @@ export class TaskController {
             res.status(500).json({ message: "Failed to soft delete tasks" });
         }
     }
+
+    
 }
