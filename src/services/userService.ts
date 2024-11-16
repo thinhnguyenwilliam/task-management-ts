@@ -42,3 +42,6 @@ export const loginUser = async (email: string, password: string): Promise<string
     // Step 4: Return the generated token
     return token;
 };
+
+
+
