@@ -1,6 +1,7 @@
 // routes/taskRouter.ts
 import { Router } from "express";
 import { TaskController } from "../../controllers/client/taskController";
+import { AuthMiddleware } from "../../middleware/authMiddleware";
 
 const tasksRoutes = Router();
 
@@ -19,7 +20,10 @@ tasksRoutes.post("/", async (req, res) => {
 
 
 // Get task details by ID
-tasksRoutes.get("/:id", TaskController.getTaskById);
+//tasksRoutes.get("/:id", TaskController.getTaskById);
+// Protected route
+tasksRoutes.get("/:id", AuthMiddleware, TaskController.getTaskById);
+
 
 
 // routes/taskRoutes.ts

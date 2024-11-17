@@ -10,7 +10,7 @@ userRouter.post('/login', login);
 
 // Protected route
 userRouter.get("/profile", AuthMiddleware, (req, res) => {
-    res.json({ message: "This is a protected route", user: (req as any).user });
-  });
+  res.json({ message: "This is a protected route", user: (req as any).user });
+});
 
 export default userRouter;
